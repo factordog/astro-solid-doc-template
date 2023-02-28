@@ -1,40 +1,17 @@
 import type {MarkdownHeading} from 'astro';
-import type {FunctionalComponent} from 'preact';
 import {unescape} from 'html-escaper';
-import {useEffect, useRef, useState} from 'preact/hooks';
+import type {Component} from "solid-js";
+import {createEffect, createSignal, onCleanup} from "solid-js";
 
-type ItemOffsets = {
-    id: string;
-    topOffset: number;
-};
 
-const TableOfContents: FunctionalComponent<{ headings: MarkdownHeading[] }> = ({
-                                                                                   headings = [],
-                                                                               }) => {
-    const toc = useRef<HTMLUListElement>();
+type TableOfContentsProps = {
+    headings: MarkdownHeading[]
+}
+const TableOfContents: Component<TableOfContentsProps> = ({headings = []}) => {
     const onThisPageID = 'on-this-page-heading';
-    const itemOffsets = useRef<ItemOffsets[]>([]);
-    const [currentID, setCurrentID] = useState('overview');
-    useEffect(() => {
-        const getItemOffsets = () => {
-            const titles = document.querySelectorAll('article :is(h1, h2, h3, h4)');
-            itemOffsets.current = Array.from(titles).map((title) => ({
-                id: title.id,
-                topOffset: title.getBoundingClientRect().top + window.scrollY,
-            }));
-        };
+    const [currentID, setCurrentID] = createSignal('overview');
 
-        getItemOffsets();
-        window.addEventListener('resize', getItemOffsets);
-
-        return () => {
-            window.removeEventListener('resize', getItemOffsets);
-        };
-    }, []);
-
-    useEffect(() => {
-        if (!toc.current) return;
-
+    createEffect(() => {
         const setCurrent: IntersectionObserverCallback = (entries) => {
             for (const entry of entries) {
                 if (entry.isIntersecting) {
@@ -59,28 +36,33 @@ const TableOfContents: FunctionalComponent<{ headings: MarkdownHeading[] }> = ({
         document.querySelectorAll('article :is(h1,h2,h3)').forEach((h) => headingsObserver.observe(h));
 
         // Stop observing when the component is unmounted.
-        return () => headingsObserver.disconnect();
-    }, [toc.current]);
+        onCleanup(() => {
+            headingsObserver.disconnect();
+        });
+    });
 
-    const onLinkClick = (e) => {
-        setCurrentID(e.target.getAttribute('href').replace('#', ''));
-    };
+    function onClick(e: MouseEvent) {
+        const target = e.target as HTMLLinkElement;
+        const href = target.getAttribute('href')
+        if (!href) return;
+        setCurrentID(href.replace('#', ''));
+    }
 
     return (
         <>
-            <h2 id={onThisPageID} className="heading">
+            <h2 id={onThisPageID} class="heading">
                 On this page
             </h2>
-            <ul ref={toc}>
+            <ul>
                 {headings
                     .filter(({depth}) => depth > 1 && depth < 4)
                     .map((heading) => (
                         <li
-                            className={`header-link depth-${heading.depth} ${
-                                currentID === heading.slug ? 'current-header-link' : ''
+                            class={`header-link depth-${heading.depth} ${
+                                currentID() === heading.slug ? 'current-header-link' : ''
                             }`.trim()}
                         >
-                            <a href={`#${heading.slug}`} onClick={onLinkClick}>
+                            <a href={`#${heading.slug}`} onClick={onClick}>
                                 {unescape(heading.text)}
                             </a>
                         </li>

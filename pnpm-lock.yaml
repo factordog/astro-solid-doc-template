@@ -7,6 +7,7 @@ specifiers:
   '@astrojs/solid-js': ^2.0.2
   '@docsearch/css': ^3.1.0
   '@docsearch/react': ^3.1.0
+  '@types/html-escaper': ^3.0.0
   '@types/node': ^18.0.0
   '@types/react': ^17.0.45
   '@types/react-dom': ^18.0.0
@@ -24,6 +25,7 @@ dependencies:
   '@astrojs/solid-js': 2.0.2_solid-js@1.6.11
   '@docsearch/css': 3.3.3
   '@docsearch/react': 3.3.3_n7ey7ew7eww2sgelnazbq6t24q
+  '@types/html-escaper': 3.0.0
   '@types/node': 18.14.2
   '@types/react': 17.0.53
   '@types/react-dom': 18.0.11
@@ -898,6 +900,10 @@ packages:
     resolution: {integrity: sha512-wLEm0QvaoawEDoTRwzTXp4b4jpwiJDvR5KMnFnVodm3scufTlBOWRD6N1OBf9TZMhjlNsSfcO5V+7AF4+Vy+9g==}
     dependencies:
       '@types/unist': 2.0.6
+    dev: false
+
+  /@types/html-escaper/3.0.0:
+    resolution: {integrity: sha512-OcJcvP3Yk8mjYwf/IdXZtTE1tb/u0WF0qa29ER07ZHCYUBZXSN29Z1mBS+/96+kNMGTFUAbSz9X+pHmHpZrTCw==}
     dev: false
 
   /@types/json5/0.0.30:
