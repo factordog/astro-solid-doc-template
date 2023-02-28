@@ -1,11 +1,15 @@
-/** @jsxImportSource react */
-import type {FunctionComponent} from 'react';
 import './LanguageSelect.css';
 import {KNOWN_LANGUAGES, langPathRegex} from '../../languages';
+import type {Component} from "solid-js";
+import {For} from "solid-js";
 
-const LanguageSelect: FunctionComponent<{ lang: string }> = ({lang}) => {
+type LanguageSelectProps = {
+    lang: string;
+}
+
+const LanguageSelect: Component<LanguageSelectProps> = ({lang}) => {
     return (
-        <div className="language-select-wrapper">
+        <div class="language-select-wrapper">
             <svg
                 aria-hidden="true"
                 focusable="false"
@@ -25,22 +29,23 @@ const LanguageSelect: FunctionComponent<{ lang: string }> = ({lang}) => {
                 />
             </svg>
             <select
-                className="language-select"
+                class="language-select"
                 value={lang}
-                onChange={(e) => {
-                    const newLang = e.target.value;
+                onChange={(e: Event) => {
+                    const target = e.target as HTMLSelectElement;
+                    const newLang = target.value;
                     let actualDest = window.location.pathname.replace(langPathRegex, '/');
                     if (actualDest == '/') actualDest = `/introduction`;
                     window.location.pathname = '/' + newLang + actualDest;
                 }}
             >
-                {Object.entries(KNOWN_LANGUAGES).map(([key, value]) => {
-                    return (
-                        <option value={value} key={value}>
+                <For each={Object.entries(KNOWN_LANGUAGES)}>
+                    {([key, value]) =>
+                        <option value={value}>
                             {key}
                         </option>
-                    );
-                })}
+                    }
+                </For>
             </select>
         </div>
     );

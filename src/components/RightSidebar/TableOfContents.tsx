@@ -3,10 +3,10 @@ import {unescape} from 'html-escaper';
 import type {Component} from "solid-js";
 import {createEffect, createSignal, onCleanup} from "solid-js";
 
-
 type TableOfContentsProps = {
     headings: MarkdownHeading[]
 }
+
 const TableOfContents: Component<TableOfContentsProps> = ({headings = []}) => {
     const onThisPageID = 'on-this-page-heading';
     const [currentID, setCurrentID] = createSignal('overview');
