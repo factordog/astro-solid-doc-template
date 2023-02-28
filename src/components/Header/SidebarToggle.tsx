@@ -1,25 +1,26 @@
-/** @jsxImportSource preact */
-import type {FunctionalComponent} from 'preact';
-import {useEffect, useState} from 'preact/hooks';
+import {Component, createSignal} from "solid-js";
 
-const MenuToggle: FunctionalComponent = () => {
-    const [sidebarShown, setSidebarShown] = useState(false);
+const MenuToggle: Component = () => {
+    const [sidebarShown, setSidebarShown] = createSignal(false);
 
-    useEffect(() => {
+    function onClick() {
+        setSidebarShown(!sidebarShown());
+        // NOTE: You see that sneaky assertion operator there? That's because cringe. I'm sorry.
         const body = document.querySelector('body')!;
-        if (sidebarShown) {
+
+        if (sidebarShown()) {
             body.classList.add('mobile-sidebar-toggle');
         } else {
             body.classList.remove('mobile-sidebar-toggle');
         }
-    }, [sidebarShown]);
+    }
 
     return (
         <button
             type="button"
-            aria-pressed={sidebarShown ? 'true' : 'false'}
+            aria-pressed={sidebarShown() ? 'true' : 'false'}
             id="menu-toggle"
-            onClick={() => setSidebarShown(!sidebarShown)}
+            onClick={onClick}
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +37,7 @@ const MenuToggle: FunctionalComponent = () => {
                     d="M4 6h16M4 12h16M4 18h16"
                 />
             </svg>
-            <span className="sr-only">Toggle sidebar</span>
+            <span class="sr-only">Toggle sidebar</span>
         </button>
     );
 };
