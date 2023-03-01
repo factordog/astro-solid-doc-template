@@ -1,6 +1,8 @@
 # Note
 This is a direct copy and port over to Solid from the Repo: [https://github.com/withastro/astro/tree/main/examples/docs](https://github.com/withastro/astro/tree/main/examples/docs)
-I have amended converted it over and changed some bit's and pieces to align with SolidJS
+I have amended converted it over and changed some bit's and pieces to align with SolidJS.
+
+WIP: I still need to convert the search component as there is no SolidJS version for Algolia. Maybe have to make our own? >.>
 
 # Astro SolidJS Starter Kit: Docs Site
 
