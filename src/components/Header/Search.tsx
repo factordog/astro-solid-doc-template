@@ -2,7 +2,6 @@
 import '@docsearch/css';
 import './Search.css';
 
-// import {createPortal} from 'react-dom';
 // import * as docSearchReact from '@docsearch/react';
 
 /** FIXME: This is still kinda nasty, but DocSearch is not ESM ready. */
