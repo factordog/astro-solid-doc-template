@@ -41,16 +41,16 @@ const ThemeToggle: Component = () => {
 
     onMount(() => {
         if (import.meta.env.ssr) {
-            setTheme(Theme.dark);
+            return setTheme(Theme.dark);
         }
 
         if (typeof localStorage !== undefined && localStorage.getItem('theme')) {
             const theme = localStorage.getItem('theme') as Theme;
-            setTheme(theme);
+            return setTheme(theme);
         }
 
         if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            setTheme(Theme.dark);
+            return setTheme(Theme.dark);
         }
 
         return setTheme(Theme.light);
