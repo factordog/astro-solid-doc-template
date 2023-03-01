@@ -29,7 +29,11 @@ are how we grow!
 
 Good luck out there, Astronaut. 🧑‍🚀
 
-```ts title="examples/index.ts"
+```json
+{ "json": true }
+```
+
+```ts twoslash
 interface IdLabel {id: number, /* some fields */ }
 interface NameLabel {name: string, /* other fields */ }
 type NameOrId<T extends number | string> = T extends number ? IdLabel : NameLabel;
